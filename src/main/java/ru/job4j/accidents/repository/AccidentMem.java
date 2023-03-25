@@ -47,4 +47,9 @@ public class AccidentMem implements AccidentRepository {
     public List<Accident> findAll() {
         return new ArrayList<>(accidents.values());
     }
+
+    @Override
+    public boolean update(Accident accident) {
+        return accidents.replace(accident.getId(), accidents.get(accident.getId()), accident);
+    }
 }

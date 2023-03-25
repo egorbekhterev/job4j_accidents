@@ -1,6 +1,7 @@
 package ru.job4j.accidents.controller;
 
 import lombok.AllArgsConstructor;
+import net.jcip.annotations.ThreadSafe;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +15,7 @@ import ru.job4j.accidents.service.AccidentService;
  */
 
 @Controller
+@ThreadSafe
 @AllArgsConstructor
 public class AccidentController {
 
@@ -25,8 +27,12 @@ public class AccidentController {
     }
 
     @PostMapping("/saveAccident")
-    public String save(@ModelAttribute Accident accident) {
-        accidentService.save(accident);
+    public String save(@ModelAttribute Accident accident, Model model) {
+        var optionalAccident = accidentService.save(accident);
+        if (optionalAccident.isEmpty()) {
+            model.addAttribute("message", "An accident with this ID already exists.");
+            return "errors/404";
+        }
         return "redirect:/index";
     }
 
@@ -39,5 +45,16 @@ public class AccidentController {
         }
         model.addAttribute("accident", optionalAccident.get());
         return "accidents/editAccident";
+    }
+
+    @PostMapping("/updateAccident")
+    public String update(@ModelAttribute Accident accident, Model model) {
+        var isUpdated = accidentService.update(accident);
+        if (!isUpdated) {
+            model.addAttribute(
+                    "message", "Error while updating information about the accident.");
+            return "errors/404";
+        }
+        return "redirect:/index";
     }
 }

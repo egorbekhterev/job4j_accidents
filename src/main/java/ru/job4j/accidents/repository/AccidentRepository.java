@@ -17,4 +17,6 @@ public interface AccidentRepository {
     Optional<Accident> findById(int id);
 
     List<Accident> findAll();
+
+    boolean update(Accident accident);
 }

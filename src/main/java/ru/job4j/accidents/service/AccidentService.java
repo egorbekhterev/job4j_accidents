@@ -32,4 +32,8 @@ public class AccidentService {
     public List<Accident> findAll() {
         return accidentRepository.findAll();
     }
+
+    public boolean update(Accident accident) {
+        return accidentRepository.update(accident);
+    }
 }
