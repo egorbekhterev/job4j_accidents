@@ -35,6 +35,7 @@
                     <th>Full Name</th>
                     <th>Description</th>
                     <th>Address</th>
+                    <th>Accident Type</th>
                 </tr>
             </thead>
             <tbody>
@@ -42,6 +43,7 @@
                     <td><a th:text="${accident.name}" th:href="@{{accidentId}(accidentId=${accident.id})}"></a></td>
                     <td th:text="${accident.text}"></td>
                     <td th:text="${accident.address}"></td>
+                    <td th:text="${accident.type.name}"></td>
                 </tr>
             </tbody>
         </table>

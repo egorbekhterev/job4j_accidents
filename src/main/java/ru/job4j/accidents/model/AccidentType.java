@@ -7,23 +7,17 @@ import lombok.NoArgsConstructor;
 
 /**
  * @author: Egor Bekhterev
- * @date: 24.03.2023
+ * @date: 25.03.2023
  * @project: job4j_accidents
  */
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class Accident {
+public class AccidentType {
 
     @EqualsAndHashCode.Include
     private int id;
 
     private String name;
-
-    private String text;
-
-    private String address;
-
-    private AccidentType type;
 }

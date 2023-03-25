@@ -13,7 +13,6 @@ import ru.job4j.accidents.service.AccidentService;
  * @date: 25.03.2023
  * @project: job4j_accidents
  */
-
 @Controller
 @ThreadSafe
 @AllArgsConstructor
@@ -22,12 +21,19 @@ public class AccidentController {
     private final AccidentService accidentService;
 
     @GetMapping("/createAccident")
-    public String viewCreateAccident() {
+    public String viewCreateAccident(Model model) {
+        model.addAttribute("types", accidentService.findAllTypes());
         return "accidents/createAccident";
     }
 
     @PostMapping("/saveAccident")
     public String save(@ModelAttribute Accident accident, Model model) {
+        var optionalType = accidentService.findTypeById(accident.getType().getId());
+        if (optionalType.isEmpty()) {
+            model.addAttribute("message", "No accident type with the given ID is found.");
+            return "errors/404";
+        }
+        accident.setType(optionalType.get());
         var optionalAccident = accidentService.save(accident);
         if (optionalAccident.isEmpty()) {
             model.addAttribute("message", "An accident with this ID already exists.");
@@ -38,6 +44,7 @@ public class AccidentController {
 
     @GetMapping("{id}")
     public String getById(Model model, @PathVariable int id) {
+        model.addAttribute("types", accidentService.findAllTypes());
         var optionalAccident = accidentService.findById(id);
         if (optionalAccident.isEmpty()) {
             model.addAttribute("message", "No accident with the given ID is found.");
@@ -49,6 +56,12 @@ public class AccidentController {
 
     @PostMapping("/updateAccident")
     public String update(@ModelAttribute Accident accident, Model model) {
+        var optionalType = accidentService.findTypeById(accident.getType().getId());
+        if (optionalType.isEmpty()) {
+            model.addAttribute("message", "No accident type with the given ID is found.");
+            return "errors/404";
+        }
+        accident.setType(optionalType.get());
         var isUpdated = accidentService.update(accident);
         if (!isUpdated) {
             model.addAttribute(
