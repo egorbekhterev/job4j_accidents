@@ -36,6 +36,7 @@
                     <th>Description</th>
                     <th>Address</th>
                     <th>Accident Type</th>
+                    <th>Section</th>
                 </tr>
             </thead>
             <tbody>
@@ -44,6 +45,11 @@
                     <td th:text="${accident.text}"></td>
                     <td th:text="${accident.address}"></td>
                     <td th:text="${accident.type.name}"></td>
+                    <td>
+                        <select id="rules" name="rules">
+                            <option th:each="rule: ${accident.rules}" th:value="${rule.id}" th:text="${rule.name}"></option>
+                        </select>
+                    </td>
                 </tr>
             </tbody>
         </table>

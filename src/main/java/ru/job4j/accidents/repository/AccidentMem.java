@@ -4,13 +4,12 @@ import net.jcip.annotations.ThreadSafe;
 import org.springframework.stereotype.Repository;
 import ru.job4j.accidents.model.Accident;
 import ru.job4j.accidents.model.AccidentType;
+import ru.job4j.accidents.model.Rule;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -32,12 +31,19 @@ public class AccidentMem implements AccidentRepository {
             new AccidentType(3, "Машина и велосипед")
     ));
 
+    private final Set<Rule> rules = new CopyOnWriteArraySet<>(Set.of(
+            new Rule(1, "Статья. 1"),
+            new Rule(2, "Статья. 2"),
+            new Rule(3, "Статья. 3")
+    ));
+
     public AccidentMem() {
         Accident accident = new Accident();
         accident.setAddress("Ул. Семьи Шамшиных, дом 1");
         accident.setName("Иванов Иван");
         accident.setText("Проезд на красный свет.");
         accident.setType(findTypeById(1).get());
+        accident.setRules(rules);
         save(accident);
     }
 
@@ -71,5 +77,15 @@ public class AccidentMem implements AccidentRepository {
     @Override
     public List<AccidentType> findAllTypes() {
         return types;
+    }
+
+    @Override
+    public Optional<Rule> findRuleById(int id) {
+        return rules.stream().filter(rule -> rule.getId() == id).findFirst();
+    }
+
+    @Override
+    public Set<Rule> findAllRules() {
+        return rules;
     }
 }

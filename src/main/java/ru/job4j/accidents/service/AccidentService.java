@@ -5,10 +5,12 @@ import net.jcip.annotations.ThreadSafe;
 import org.springframework.stereotype.Service;
 import ru.job4j.accidents.model.Accident;
 import ru.job4j.accidents.model.AccidentType;
+import ru.job4j.accidents.model.Rule;
 import ru.job4j.accidents.repository.AccidentRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * @author: Egor Bekhterev
@@ -44,5 +46,13 @@ public class AccidentService {
 
     public List<AccidentType> findAllTypes() {
         return accidentRepository.findAllTypes();
+    }
+
+    public Optional<Rule> findRuleById(int id) {
+        return accidentRepository.findRuleById(id);
+    }
+
+    public Set<Rule> findAllRules() {
+        return accidentRepository.findAllRules();
     }
 }
