@@ -27,6 +27,8 @@ public class Accident {
 
     private String address;
 
+    private String carNumber;
+
     private AccidentType type;
 
     private Set<Rule> rules;

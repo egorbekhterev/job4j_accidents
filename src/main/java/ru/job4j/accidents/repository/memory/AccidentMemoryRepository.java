@@ -1,15 +1,17 @@
-package ru.job4j.accidents.repository;
+package ru.job4j.accidents.repository.memory;
 
+import lombok.AllArgsConstructor;
 import net.jcip.annotations.ThreadSafe;
 import org.springframework.stereotype.Repository;
 import ru.job4j.accidents.model.Accident;
 import ru.job4j.accidents.model.AccidentType;
 import ru.job4j.accidents.model.Rule;
+import ru.job4j.accidents.repository.AccidentRepository;
+import ru.job4j.accidents.repository.AccidentTypeRepository;
+import ru.job4j.accidents.repository.RuleRepository;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -19,31 +21,25 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 @Repository
 @ThreadSafe
-public class AccidentMem implements AccidentRepository {
+@AllArgsConstructor
+public class AccidentMemoryRepository implements AccidentRepository {
 
     private final AtomicInteger count = new AtomicInteger(0);
 
     private final Map<Integer, Accident> accidents = new ConcurrentHashMap<>();
 
-    private final List<AccidentType> types = new CopyOnWriteArrayList<>(List.of(
-            new AccidentType(1, "Две машины"),
-            new AccidentType(2, "Машина и человек"),
-            new AccidentType(3, "Машина и велосипед")
-    ));
+    private AccidentTypeRepository accidentTypeRepository;
 
-    private final Set<Rule> rules = new CopyOnWriteArraySet<>(Set.of(
-            new Rule(1, "Статья. 1"),
-            new Rule(2, "Статья. 2"),
-            new Rule(3, "Статья. 3")
-    ));
+    private RuleRepository ruleRepository;
 
-    public AccidentMem() {
+    public AccidentMemoryRepository() {
         Accident accident = new Accident();
         accident.setAddress("Ул. Семьи Шамшиных, дом 1");
         accident.setName("Иванов Иван");
         accident.setText("Проезд на красный свет.");
-        accident.setType(findTypeById(1).get());
-        accident.setRules(rules);
+        accident.setCarNumber("o000oo999");
+        accident.setType(new AccidentType(3, "Машина и велосипед"));
+        accident.setRules(Set.of(new Rule(1, "Статья. 1")));
         save(accident);
     }
 
@@ -67,25 +63,5 @@ public class AccidentMem implements AccidentRepository {
     @Override
     public boolean update(Accident accident) {
         return accidents.replace(accident.getId(), accidents.get(accident.getId()), accident);
-    }
-
-    @Override
-    public Optional<AccidentType> findTypeById(int id) {
-        return Optional.ofNullable(types.get(id - 1));
-    }
-
-    @Override
-    public List<AccidentType> findAllTypes() {
-        return types;
-    }
-
-    @Override
-    public Optional<Rule> findRuleById(int id) {
-        return rules.stream().filter(rule -> rule.getId() == id).findFirst();
-    }
-
-    @Override
-    public Set<Rule> findAllRules() {
-        return rules;
     }
 }
