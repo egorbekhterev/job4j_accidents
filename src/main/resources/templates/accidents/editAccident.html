@@ -44,11 +44,11 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="type.id" name="rIds">Section</label>
+                        <label for="rIds" name="rIds">Section</label>
                         <select class="form-control" id="rIds" name="rIds" multiple required>
                             <option th:each="rule: ${rules}"
                                     th:text="${rule.name}"
-                                    th:value="${rule.id}" th:selected="${rule.id}"></option>
+                                    th:value="${rule.id}" th:selected="${accident.rules.contains(rule)}"></option>
                         </select>
                     </div>
                     <div class="form-group">

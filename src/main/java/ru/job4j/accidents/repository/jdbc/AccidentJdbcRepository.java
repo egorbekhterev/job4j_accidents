@@ -96,11 +96,21 @@ public class AccidentJdbcRepository implements AccidentRepository {
         return Optional.ofNullable(accident);
     }
 
+    private boolean deleteFromAccidentsRulesById(int id) {
+        var affectedRows = jdbc.update("delete from accidents_rules where accident_id = ?", id);
+        return affectedRows > 0;
+    }
+
     @Override
     public boolean update(Accident accident) {
         var affectedRows = jdbc.update("update accidents set name = ?, text = ?, address = ?, car_number = ?, type_id = ? "
                 + "where id = ?", accident.getName(), accident.getText(), accident.getAddress(),
                 accident.getCarNumber(), accident.getType().getId(), accident.getId());
+
+        deleteFromAccidentsRulesById(accident.getId());
+
+        accident.getRules().forEach(rule -> jdbc.update("insert into accidents_rules (accident_id, rule_id) "
+                + "values (?, ?)", accident.getId(), rule.getId()));
         return affectedRows > 0;
     }
 }
