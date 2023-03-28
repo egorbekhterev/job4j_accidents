@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
 import java.util.Set;
 
 /**
@@ -16,9 +17,13 @@ import java.util.Set;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
+@Table(name = "accidents")
 public class Accident {
 
     @EqualsAndHashCode.Include
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     private String name;
@@ -27,9 +32,18 @@ public class Accident {
 
     private String address;
 
+    @Column(name = "car_number")
     private String carNumber;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "type_id")
     private AccidentType type;
 
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "accidents_rules",
+            joinColumns = { @JoinColumn(name = "accident_id") },
+            inverseJoinColumns = { @JoinColumn(name = "rule_id") }
+    )
     private Set<Rule> rules;
 }
