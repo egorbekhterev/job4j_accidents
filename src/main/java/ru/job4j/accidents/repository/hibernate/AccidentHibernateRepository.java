@@ -5,11 +5,12 @@ import net.jcip.annotations.ThreadSafe;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.jpa.QueryHints;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import ru.job4j.accidents.model.Accident;
-import ru.job4j.accidents.repository.AccidentRepository;
+import ru.job4j.accidents.repository.interfaces.AccidentRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -65,7 +66,7 @@ public class AccidentHibernateRepository implements AccidentRepository {
         try (Session session = sf.openSession()) {
             return session.createQuery(
                     "SELECT DISTINCT a FROM Accident a JOIN FETCH a.type t JOIN FETCH a.rules r ORDER BY a.id",
-                            Accident.class).list();
+                            Accident.class).setHint(QueryHints.HINT_PASS_DISTINCT_THROUGH, false).getResultList();
         }
     }
 

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import ru.job4j.accidents.model.Accident;
 import ru.job4j.accidents.model.AccidentType;
 import ru.job4j.accidents.model.Rule;
-import ru.job4j.accidents.repository.AccidentRepository;
+import ru.job4j.accidents.repository.interfaces.AccidentRepository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -138,7 +138,8 @@ public class AccidentJdbcRepository implements AccidentRepository {
             return false;
         }
 
-        var affectedRows = jdbc.update("update accidents set name = ?, text = ?, address = ?, car_number = ?, type_id = ? "
+        var affectedRows = jdbc.update(
+                "update accidents set name = ?, text = ?, address = ?, car_number = ?, type_id = ? "
                         + "where id = ?", accident.getName(), accident.getText(), accident.getAddress(),
                 accident.getCarNumber(), accident.getType().getId(), accident.getId());
 

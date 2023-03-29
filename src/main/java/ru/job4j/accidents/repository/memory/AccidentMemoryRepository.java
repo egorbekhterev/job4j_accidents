@@ -6,9 +6,9 @@ import org.springframework.stereotype.Repository;
 import ru.job4j.accidents.model.Accident;
 import ru.job4j.accidents.model.AccidentType;
 import ru.job4j.accidents.model.Rule;
-import ru.job4j.accidents.repository.AccidentRepository;
-import ru.job4j.accidents.repository.AccidentTypeRepository;
-import ru.job4j.accidents.repository.RuleRepository;
+import ru.job4j.accidents.repository.interfaces.AccidentRepository;
+import ru.job4j.accidents.repository.interfaces.AccidentTypeRepository;
+import ru.job4j.accidents.repository.interfaces.RuleRepository;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;

@@ -6,7 +6,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
 import ru.job4j.accidents.model.Rule;
-import ru.job4j.accidents.repository.RuleRepository;
+import ru.job4j.accidents.repository.interfaces.RuleRepository;
 
 import java.util.Optional;
 import java.util.Set;
