@@ -2,6 +2,8 @@ package ru.job4j.accidents.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import net.jcip.annotations.ThreadSafe;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @project: job4j_accidents
  */
 @Controller
+@ThreadSafe
 public class LoginController {
 
     @GetMapping("/login")
@@ -41,6 +44,6 @@ public class LoginController {
         if (auth != null) {
             new SecurityContextLogoutHandler().logout(request, response, auth);
         }
-        return "redirect:/users/login?logout=true";
+        return "redirect:/login?logout=true";
     }
 }
