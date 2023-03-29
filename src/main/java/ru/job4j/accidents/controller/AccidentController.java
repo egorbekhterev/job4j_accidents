@@ -6,9 +6,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.job4j.accidents.model.Accident;
-import ru.job4j.accidents.service.hibernate.AccidentHibernateService;
-import ru.job4j.accidents.service.hibernate.AccidentTypeHibernateService;
-import ru.job4j.accidents.service.hibernate.RuleHibernateService;
+import ru.job4j.accidents.service.data.AccidentSpringDataService;
+import ru.job4j.accidents.service.data.AccidentTypeSpringDataService;
+import ru.job4j.accidents.service.data.RuleSpringDataService;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,9 +24,9 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class AccidentController {
 
-    private final AccidentTypeHibernateService accidentTypeService;
-    private final RuleHibernateService ruleService;
-    private final AccidentHibernateService accidentService;
+    private final AccidentTypeSpringDataService accidentTypeService;
+    private final RuleSpringDataService ruleService;
+    private final AccidentSpringDataService accidentService;
 
     @GetMapping("/createAccident")
     public String viewCreateAccident(Model model) {

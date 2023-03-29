@@ -1,22 +1,16 @@
 package ru.job4j.accidents.repository;
 
+import org.springframework.data.repository.CrudRepository;
 import ru.job4j.accidents.model.Accident;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * @author: Egor Bekhterev
- * @date: 24.03.2023
+ * @date: 29.03.2023
  * @project: job4j_accidents
  */
-public interface AccidentRepository {
-
-    Optional<Accident> save(Accident accident);
-
-    Optional<Accident> findById(int id);
+public interface AccidentRepository extends CrudRepository<Accident, Integer> {
 
     List<Accident> findAll();
-
-    boolean update(Accident accident);
 }

@@ -1,18 +1,16 @@
 package ru.job4j.accidents.repository;
 
+import org.springframework.data.repository.CrudRepository;
 import ru.job4j.accidents.model.Rule;
 
-import java.util.Optional;
 import java.util.Set;
 
 /**
  * @author: Egor Bekhterev
- * @date: 27.03.2023
+ * @date: 29.03.2023
  * @project: job4j_accidents
  */
-public interface RuleRepository {
+public interface RuleRepository extends CrudRepository<Rule, Integer> {
 
-    Optional<Rule> findRuleById(int id);
-
-    Set<Rule> findAllRules();
+    Set<Rule> findAll();
 }
