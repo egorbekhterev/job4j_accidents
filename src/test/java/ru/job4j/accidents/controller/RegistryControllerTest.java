@@ -24,8 +24,6 @@ import ru.job4j.accidents.Main;
 import ru.job4j.accidents.model.User;
 import ru.job4j.accidents.repository.UserRepository;
 
-import java.util.Optional;
-
 import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest(classes = Main.class)
